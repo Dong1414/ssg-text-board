@@ -18,10 +18,26 @@ CREATE TABLE article (
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-title = CONCAT('제목_', RAND()),
-`body` = CONCAT('내용_', RAND()),
-memberId = FLOOR(RAND()*2)+1,
-boardId = FLOOR(RAND()*2)+1;
+title = '공지사항',
+`body` = '# 공지사항\r\n안녕하세요.\r\n이 사이트는 저의 글 연재 공간입니다.\r\n\r\n---\r\n\r\n# 이 사이트의 특징\r\n- A\r\n- B\r\n- C',
+memberId = 2,
+boardId = 1;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '자바 기본 문법',
+`body` = '# 자바기본문법\r\n```java\r\nint a = 10;\r\nint b = 20;\r\nint c = a + b;\r\n```',
+memberId = 2,
+boardId = 2;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '자바 조건문',
+`body` = '# 자바기본문법\r\n```java\r\nint a = 10;\r\nint b = 20;\r\nint c = a + b;\r\n```',
+memberId = 2,
+boardId = 2;
 
 
 # 회원 테이블 생성
@@ -45,9 +61,9 @@ loginPw = 'test1',
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
-loginId = 'test2',
-loginPw = 'test2',
-`name` = '테스터2';
+loginId = '1',
+loginPw = '1',
+`name` = '호말';
 
 # 게시판 테이블 생성
 CREATE TABLE board (
@@ -69,12 +85,7 @@ updateDate = NOW(),
 INSERT INTO board 
 SET regDate = NOW(),
 updateDate = NOW(),
-`name` = '자유',
-`code` = 'free';
+`name` = 'IT',
+`code` = 'it';
 
-UPDATE article
-SET boardId = 2
-LIMIT 2;
-
-UPDATE article SET `body` = '# 공지사항\r\n안녕하세요.\r\n이 사이트는 저의 글 연재 공간입니다.\r\n\r\n---\r\n\r\n# 이 사이트의 특징\r\n- A\r\n- B\r\n- C'
-WHERE id = '2';
+SELECT * FROM article;

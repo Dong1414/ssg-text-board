@@ -314,8 +314,8 @@ public class BuildService {
 			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-file-alt\"></i> <span>ARTICLE DETAIL</span>";
-		} else if (pageName.startsWith("article_list_free")) {
-			return "<i class=\"fab fa-free-code-camp\"></i> <span>FREE LIST</span>";
+		} else if (pageName.startsWith("article_list_it")) {
+			return "<i class=\"fab fa-free-code-camp\"></i> <span>IT LIST</span>";
 		} else if (pageName.startsWith("article_list_notice")) {
 			return "<i class=\"fas fa-flag\"></i> <span>NOTICE LIST</span>";
 		} else if (pageName.startsWith("article_list_")) {
