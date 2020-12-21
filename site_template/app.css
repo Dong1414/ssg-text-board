@@ -53,6 +53,10 @@ a {
 	display: flex;
 }
 
+.flex-jc-s{
+  justify-content: flex-start;
+}
+
 .flex-jc-c {
 	justify-content: center;
 }
@@ -102,6 +106,10 @@ a {
 	height: 100%;
 }
 
+.align-content{
+  align-content:center;
+}
+
 .block {
 	display: block;
 }
@@ -117,15 +125,16 @@ a {
 
 /* 로고 시작 */
 .logo {
-	font-size: 4rem;
+	font-size: 3rem;
 }
 
+
 .logo>span {
-	margin-left: 10px;
+	margin-left: 40px;
 }
 
 .logo>span>span {
-	color: red;
+	font-weight:bold;
 }
 
 .logo--mini {
@@ -134,60 +143,60 @@ a {
 /* 로고 끝 */
 
 /* 로고바 시작 */
-.logo-bar {
-	background-color: black;
-	color: white;
-	height: 150px;
+.logo-bar {		
+	height: 110px;
 }
 /* 로고바 끝 */
 
+/* 신메뉴바 */
+.logo-bar .menu-box-1 {
+  margin-right:30px;
+}
+.logo-bar .menu-box-1 > ul > li > a {
+  font-weight:bold;
+  font-size:1.5rem;
+  padding:0 10px;
+}
+.logo-bar .menu-box-1 > ul > li:hover > a {
+  color:pink;
+}
+/* 신메뉴바 끝*/
+
 /* 메뉴바 시작 */
 .menu-bar {
-	background-color: black;
-	color: white;
+  opacity:90%;
+  background-color:black;
+  position:fixed;
+  top:0;
+  left:-390px;
+  width:400px;
+  height:100%;
+  transition:left .4s;
+  z-index:1;
 }
-
-.menu-bar__menu-1>ul>li {
-	width: 25%;
-	position: relative;
+.menu-bar:hover {
+  left:0px;
 }
 
 .menu-bar__menu-1 ul>li>a {
 	text-align: center;
-	padding: 20px 0;
+  color:white;
+	padding: 40px;
+	font-size:1.3rem;
+	font-weight:bold;
 }
 
 .menu-bar__menu-1 ul>li:hover>a {
 	background-color: white;
 	color: black;
 }
-
 .menu-bar__menu-1>ul>li>a {
-	border-radius: 10px 10px 0 0;
+	border-radius: 15px;
 }
-
-.menu-bar__menu-1>ul ul {
-	visibility:hidden;
-	position: absolute;
-	top: 100%;
-	left: -50px;
-	width: 100%;
-	background-color: black;
-	border: 10px solid black;
-	border-top-width: 0;
-	border-radius: 0 0 20px 20px;
-	z-index: 1;
-}
-
-.menu-bar__menu-1>ul>li:hover>ul {
+.menu-bar__menu-1>ul>li:hover {
   transition:left 0.4s; 
-  left:-10px;
-  visibility:visible;
+  left:-10px;  
 	
-}
-
-.menu-bar__menu-1>ul ul>li:last-child>a {
-	border-radius: 0 0 10px 10px;
 }
 /* 메뉴바 끝 */
 
@@ -197,6 +206,20 @@ a {
 	margin-bottom: 30px;
 }
 /* 타이틀바 끝 */
+
+/* 배경화면 시작 */
+.color-w{
+	color:white;
+}
+
+.back-image {
+  
+  
+  background-size:contain;
+  background-image:url('https://cdn.pixabay.com/photo/2015/02/02/11/09/office-620822_960_720.jpg');
+
+}
+/* 배경화면 끝 */
 
 /*리스트 시작*/
 :root {
@@ -381,8 +404,7 @@ background-color:black;
 /*디테일 끝 */
 
 /* 하단바 시작 */
-.bottom-bar {
-	margin-top: 30px;
+.bottom-bar {	
 	background-color: black;
 	color: white;
 	padding-top: 30px;
@@ -393,3 +415,30 @@ background-color:black;
 	margin-left: 20px;
 }
 /* 하단바 끝 */
+/* 홈페이지 */
+
+.list_content {
+  margin-bottom:25px;  
+  background-color:white;
+  border-radius:20px;
+  
+}
+.list_content > a > nav {
+  margin-top:10px;
+  padding-left:10px;
+}
+.list_content > .detail_into{
+  margin-top:10px;
+  padding-left:10px;
+  padding-bottom:10px;
+}
+.list_content .tit_post{
+    font-size: 18px;
+    line-height: 8px;    
+}
+.list_content .txt_post {
+    font-size: 15px;
+    line-height: 8px;    
+}
+
+/* 홈페이지 끝 */

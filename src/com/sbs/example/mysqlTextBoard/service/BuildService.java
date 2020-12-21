@@ -1,5 +1,6 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sbs.example.mysqlTextBoard.Container;
@@ -197,13 +198,33 @@ public class BuildService {
 		String head = getHeadHtml("index");
 		String foot = Util.getFileContents("site_template/foot.html");
 
-		String mainHtml = Util.getFileContents("site_template/index.html");
-
+		String mainHtml = Util.getFileContents("site_template/index.html");		
+		head = head.replace("<main class=\"flex-grow-1\">", "<main class=\"flex-grow-1 back-image\">");		
+		head = head.replace("<h1 class=\"con\">","<h1 class=\"con color-w\">");
 		sb.append(head);
-		sb.append(mainHtml);
+		String html = "";
+		List<Article> articles = articleService.getArticles();
+		int count = 0;
+		for(Article article : articles) {
+			count++;			
+			html += "<div class=\"list_content\">\n";
+			html += "<a href=\"\" class=\"link_post\">\n";
+			html += "<strong class=\"tit_post\">" + article.getTitle() + "</strong>\n";
+			html += "<p class=\"txt_post\">" + article.body + "</p>\n";
+			html += "</a>\n";
+			html += "<div class=\"detail_into\">\n";
+			html += article.boardId + " , " + article.getRegDate();
+			html += "</div></div>";
+			if(count ==4) {
+				break;
+			}
+		}
+		html = mainHtml.replace("${newarticle3}", html);
+		sb.append(html);
 		sb.append(foot);
 
 		String filePath = "site/index.html";
+		
 		Util.writeFile(filePath, sb.toString());
 		System.out.println(filePath + " 생성");
 	}
@@ -272,7 +293,7 @@ public class BuildService {
 				String fileName = board.getCode() + "-article-detail-" + article.id + ".html";
 				articleCount--;
 				String filePath = "site/" + fileName;
-				System.out.println(sb.toString());
+				
 				Util.writeFile(filePath, sb.toString());
 				System.out.println(filePath + " 생성");
 			}
@@ -311,7 +332,7 @@ public class BuildService {
 
 	private String getTitleBarContentByPageName(String pageName) {
 		if (pageName.equals("index")) {
-			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+			return "<i class=\"fas fa-home\"></i> <span>최신글</span>";
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-file-alt\"></i> <span>ARTICLE DETAIL</span>";
 		} else if (pageName.startsWith("article_list_it")) {
