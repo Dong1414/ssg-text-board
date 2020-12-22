@@ -27,7 +27,7 @@ public class MemberService {
 
 
 
-	public Map<String, Object> getMemberCount() {
+	public int getMemberCount() {
 
 		return memberDao.getMemberCount();
 	}

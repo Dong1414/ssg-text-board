@@ -66,12 +66,17 @@ public class ArticleService {
 		return articleDao.getArticlesCount(boardId);
 	}
 
-	public Map<String, Object> getNoticesCount() {
+	public int getNoticesCount() {
 	
 		return articleDao.getNoticesCount();
 	}
 
-	public Map<String, Object> getFreeCount() {
-		return articleDao.getFreeCount();
+	public int getFreeCount() {
+		return articleDao.getItCount();
 	}
+
+	public String getBoardByCode(int boardId) {
+		return articleDao.getBoardByCode(boardId);
+	}
+
 }

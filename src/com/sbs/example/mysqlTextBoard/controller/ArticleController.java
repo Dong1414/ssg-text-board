@@ -235,6 +235,7 @@ public class ArticleController extends Controller {
 		System.out.printf("작성자 : %s\n", writer);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
+		System.out.printf("조회수 : %s\n", article.hit);
 	}
 
 }

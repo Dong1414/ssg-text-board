@@ -34,8 +34,27 @@ public class BuildService {
 
 	private void buildStat() {
 		List<Article> articles = articleService.getArticles();
-
+		List<Board> boards = articleService.getForPrintBoards();
+		int totalHit = 0;
+		int noticeHit = 0;
+		int itHit = 0;
+		for(Board board : boards) {
+			List<Article> boardArticles = articleService.getForPrintArticles(board.id);
+			for(Article article : boardArticles) {
+				totalHit += article.hit;
+				
+				if(board.id == 1) {
+					noticeHit += article.hit; 
+				}else {
+					itHit += article.hit;
+				}
+			}
+		}
+		
+		
+		
 		String head = getHeadHtml("stat");
+		String template = Util.getFileContents("site_template/stat.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 
 		String fileName = "stat.html";
@@ -43,17 +62,19 @@ public class BuildService {
 		String html = "<meta charset=\"UTF-8\">";
 		html += "<div>회원 수 : " + memberService.getMemberCount() + "</div>";
 		html += "<div>전체 게시물 수 : " + articles.size() + "</div>";
-		html += "<div>게시판별 게시물 수 :</div>";
-
+		
 		html += "<div>공지사항 게시판 게시물 수 : " + articleService.getNoticesCount() + "</div>";
-		html += "<div>자유 게시판 게시물 수 : " + articleService.getFreeCount() + "</div>";
+		html += "<div>IT 게시판 게시물 수 : " + articleService.getFreeCount() + "</div>";
+		
+		html += "<div>전체 게시물 조회 수 : " + totalHit + "</div>";
+		html += "<div>공지사항 게시판 조회 수 : " + noticeHit + "</div>";
+		html += "<div>IT 게시판 조회 수 : " + itHit + "</div>";
 
-		html += "<div>전체 게시물 조회 수 : " + 0 + "</div>";
-		html += "<div>각 게시판별 조회 수 : " + 0 + "</div>";
-
+		html = template.replace("{$body}", html);
+		
 		html = head + html + foot;
 		String filePath = "site/" + fileName;
-		Util.writeFile(filePath + fileName, html);
+		Util.writeFile(filePath, html);
 
 	}
 
@@ -206,16 +227,19 @@ public class BuildService {
 		List<Article> articles = articleService.getArticles();
 		int count = 0;
 		for(Article article : articles) {
+			String board = articleService.getBoardByCode(article.boardId);
 			count++;			
 			html += "<div class=\"list_content\">\n";
-			html += "<a href=\"\" class=\"link_post\">\n";
+			html += "<a href=\"" + board + "-article-detail-" + article.id + ".html\" class=\"link_post\">\n";
+			html += "<nav>\n";
 			html += "<strong class=\"tit_post\">" + article.getTitle() + "</strong>\n";
 			html += "<p class=\"txt_post\">" + article.body + "</p>\n";
+			html += "</nav>\n";
 			html += "</a>\n";
 			html += "<div class=\"detail_into\">\n";
-			html += article.boardId + " , " + article.getRegDate();
+			html += board.toUpperCase() + " LIST , " + article.getRegDate();
 			html += "</div></div>";
-			if(count ==4) {
+			if(count ==5) {
 				break;
 			}
 		}

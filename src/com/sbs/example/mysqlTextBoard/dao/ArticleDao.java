@@ -179,36 +179,34 @@ public class ArticleDao {
 		return null;
 	}
 
-	public Map<String, Object> getNoticesCount() {
+	public int getNoticesCount() {
 		SecSql sql = new SecSql();
 
 		sql.append("SELECT COUNT(*)");
 		sql.append("FROM article");
 		sql.append("WHERE `boardId` = 1");
-		
-		Map<String, Object> map = MysqlUtil.selectRow(sql);
 
-		if (map.isEmpty()) {
-			return null;
-		}
-
-		return map;
+		return MysqlUtil.selectRowIntValue(sql);
 	}
 
-	public Map<String, Object> getFreeCount() {
+	public int getItCount() {
 		SecSql sql = new SecSql();
 
 		sql.append("SELECT COUNT(*)");
 		sql.append("FROM article");
 		sql.append("WHERE boardId = 2");
 
-		Map<String, Object> map = MysqlUtil.selectRow(sql);
+		return MysqlUtil.selectRowIntValue(sql);
+	}
 
-		if (map.isEmpty()) {
-			return null;
-		}
+	public String getBoardByCode(int boardId) {
+		SecSql sql = new SecSql();
 
-		return map;
+		sql.append("SELECT `code`");
+		sql.append("FROM `board`");
+		sql.append("WHERE id = ?", boardId);
+
+		return MysqlUtil.selectRowStringValue(sql);
 	}
 
 }

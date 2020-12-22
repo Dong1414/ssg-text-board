@@ -53,19 +53,13 @@ public class MemberDao {
 		return new Member(map);
 	}
 
-	public Map<String, Object> getMemberCount() {
+	public int getMemberCount() {
 		SecSql sql = new SecSql();
 
 		sql.append("SELECT COUNT(*)");
 		sql.append("FROM `member`");
 
-		Map<String, Object> map = MysqlUtil.selectRow(sql);
-
-		if (map.isEmpty()) {
-			return null;
-		}
-
-		return map;
+		return MysqlUtil.selectRowIntValue(sql);
 	}
 
 	public String getMemberName(int id) {
