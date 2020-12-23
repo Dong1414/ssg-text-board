@@ -294,18 +294,18 @@ public class BuildService {
 				} else if (count == articles.size() - 1) {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\">&lt; 다음글 </a>";
 					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (articleCount - 1)
+					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id - 1)
 							+ ".html\" class=\"hover-underline\"> 이전글 &gt;</a> ";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count != 0) {
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (articleCount + 1)
+					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id + 1)
 							+ ".html\" class=\"hover-underline\">&lt; 다음글 </a>";
 					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (articleCount - 1)
+					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id - 1)
 							+ ".html\" class=\"hover-underline\"> 이전글 &gt;</a>";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count == 0) {
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (articleCount + 1)
+					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id + 1)
 							+ ".html\" class=\"hover-underline\">&lt; 다음글 </a>";
 					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"#\" class=\"hover-underline\"> 이전글 &gt;</a>";
