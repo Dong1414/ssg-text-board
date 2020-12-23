@@ -301,6 +301,7 @@ border-top:1px solid black;
 
 .article-page-menu {
   margin-top:20px;
+  margin-bottom:20px;
 }
 
 .article-page-menu > ul > li > a {
@@ -408,7 +409,7 @@ background-color:black;
 /*디테일 끝 */
 
 /* 하단바 시작 */
-.bottom-bar> .con > .logo >span {
+.bottom-bar> .con > .logo >span {	
   margin-left: 40px;
   width:250px;
   height:83.3px;
@@ -421,6 +422,7 @@ background-color:black;
 	color: white;
 	padding-top: 30px;
 	padding-bottom: 30px;
+	
 }
 
 .bottom-bar__site-info {
