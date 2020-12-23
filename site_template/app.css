@@ -381,6 +381,7 @@ background-color:black;
 .article-detail__menu{
 	margin-left: 30px;
 	margin-top: 15px;
+	margin-bottom: 20px;
 }
 .article-detail > * {
   border-bottom:1px solid black;
