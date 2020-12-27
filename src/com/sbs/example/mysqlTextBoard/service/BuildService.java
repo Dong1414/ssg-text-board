@@ -256,7 +256,7 @@ public class BuildService {
 	private void buildArticleDetailPages() {
 		List<Board> boards = articleService.getForPrintBoards();
 
-		String head = getHeadHtml("article_detail");
+		
 		String foot = Util.getFileContents("site_template/foot.html");
 		String template = Util.getFileContents("site_template/detail.html");
 
@@ -266,6 +266,7 @@ public class BuildService {
 			int count = articles.size();
 			// 게시물 상세피이지 생성
 			for (Article article : articles) {
+				String head = getHeadHtml("article_detail", article);
 				String html = "";
 				String bodyHtml = "";
 				String pageHtml = "";
@@ -311,6 +312,9 @@ public class BuildService {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\"> 이전글 &gt;</a>";
 					html = html.replace("{$detail-page}", pageHtml);
 				}
+				
+				html = html.replace("${site-domain}", "blog.homar.co.kr");
+				html = html.replace("${file-name}", getArticleDetailFileName(article.id));
 				sb.append(html);
 				sb.append(foot);
 
@@ -326,6 +330,11 @@ public class BuildService {
 	}
 
 	private String getHeadHtml(String pageName) {
+		return getHeadHtml(pageName, null);
+	}
+	
+	
+	private String getHeadHtml(String pageName, Object relObj) {
 		String head = Util.getFileContents("site_template/head.html");
 
 		StringBuilder boardMenuContentHtml = new StringBuilder();
@@ -350,8 +359,59 @@ public class BuildService {
 		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
+		
+		String pageTitle = getPageTitle(pageName, relObj) ;
+		
+		head = head.replace("${page-title}", pageTitle);
+		
+		
+		String siteName = "DongLog";
+		String siteSubject = "개발자의 기술/일상 블로그";
+		String siteDescription = "개발자의 기술/일상 관련 글들을 공유합니다.";
+		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, 리눅스, 리액트";
+		String siteDomain = "blog.homar.co.kr";
+		String siteMainUrl = "https://" + siteDomain;
+		String currentDate = Util.getNowDateStr().replace(" ", "T");
+		
+		if ( relObj instanceof Article ) {
+			Article article = (Article)relObj;
+			siteSubject = article.title;
+			siteDescription = article.body;
+			siteDescription = siteDescription.replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "");
+		}
+
+		head = head.replace("${site-name}", siteName);
+		head = head.replace("${site-subject}", siteSubject);
+		head = head.replace("${site-description}", siteDescription);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${current-date}", currentDate);
+		head = head.replace("${site-main-url}", siteMainUrl);
+		head = head.replace("${site-keywords}", siteKeywords);
 
 		return head;
+	}
+
+	
+	private String getPageTitle(String pageName, Object relObj) {
+		StringBuilder sb = new StringBuilder();
+		
+		String forPringtPageName = pageName;
+		if(forPringtPageName.equals("index")) {
+			forPringtPageName = "home";
+		}
+		forPringtPageName = forPringtPageName.toUpperCase();
+		forPringtPageName = forPringtPageName.replaceAll("-", " ");
+		sb.append("DongLog | ");
+		sb.append(forPringtPageName);
+		
+		if(relObj instanceof Article) {
+			Article article = (Article) relObj;
+			
+			sb.insert(0, article.title + " | ");
+		}
+		
+		return sb.toString();
 	}
 
 	private String getTitleBarContentByPageName(String pageName) {
@@ -371,7 +431,9 @@ public class BuildService {
 
 		return "";
 	}
-
+	private String getArticleDetailFileName(int id) {
+		return "article_detail_" + id + ".html";
+	}
 	private String getArticleListFileName(Board board, int page) {
 		return getArticleListFileName(board.code, page);
 	}
