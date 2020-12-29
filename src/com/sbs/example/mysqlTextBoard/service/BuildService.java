@@ -38,21 +38,19 @@ public class BuildService {
 		int totalHit = 0;
 		int noticeHit = 0;
 		int itHit = 0;
-		for(Board board : boards) {
+		for (Board board : boards) {
 			List<Article> boardArticles = articleService.getForPrintArticles(board.id);
-			for(Article article : boardArticles) {
+			for (Article article : boardArticles) {
 				totalHit += article.hit;
-				
-				if(board.id == 1) {
-					noticeHit += article.hit; 
-				}else {
+
+				if (board.id == 1) {
+					noticeHit += article.hit;
+				} else {
 					itHit += article.hit;
 				}
 			}
 		}
-		
-		
-		
+
 		String head = getHeadHtml("stat");
 		String template = Util.getFileContents("site_template/stat.html");
 		String foot = Util.getFileContents("site_template/foot.html");
@@ -62,16 +60,16 @@ public class BuildService {
 		String html = "<meta charset=\"UTF-8\">";
 		html += "<div>회원 수 : " + memberService.getMemberCount() + "</div>";
 		html += "<div>전체 게시물 수 : " + articles.size() + "</div>";
-		
+
 		html += "<div>공지사항 게시판 게시물 수 : " + articleService.getNoticesCount() + "</div>";
 		html += "<div>IT 게시판 게시물 수 : " + articleService.getFreeCount() + "</div>";
-		
+
 		html += "<div>전체 게시물 조회 수 : " + totalHit + "</div>";
 		html += "<div>공지사항 게시판 조회 수 : " + noticeHit + "</div>";
 		html += "<div>IT 게시판 조회 수 : " + itHit + "</div>";
 
 		html = template.replace("{$body}", html);
-		
+
 		html = head + html + foot;
 		String filePath = "site/" + fileName;
 		Util.writeFile(filePath, html);
@@ -219,16 +217,16 @@ public class BuildService {
 		String head = getHeadHtml("index");
 		String foot = Util.getFileContents("site_template/foot.html");
 
-		String mainHtml = Util.getFileContents("site_template/index.html");		
-		head = head.replace("<main class=\"flex-grow-1\">", "<main class=\"flex-grow-1 back-image\">");		
-		head = head.replace("<h1 class=\"con\">","<h1 class=\"con color-w\">");
+		String mainHtml = Util.getFileContents("site_template/index.html");
+		head = head.replace("<main class=\"flex-grow-1\">", "<main class=\"flex-grow-1 back-image\">");
+		head = head.replace("<h1 class=\"con\">", "<h1 class=\"con color-w\">");
 		sb.append(head);
 		String html = "";
 		List<Article> articles = articleService.getArticles();
 		int count = 0;
-		for(Article article : articles) {
+		for (Article article : articles) {
 			String board = articleService.getBoardByCode(article.boardId);
-			count++;			
+			count++;
 			html += "<div class=\"list_content\">\n";
 			html += "<a href=\"" + board + "-article-detail-" + article.id + ".html\" class=\"link_post\">\n";
 			html += "<nav>\n";
@@ -239,7 +237,7 @@ public class BuildService {
 			html += "<div class=\"detail_into\">\n";
 			html += board.toUpperCase() + " LIST , " + article.getRegDate();
 			html += "</div></div>";
-			if(count ==5) {
+			if (count == 5) {
 				break;
 			}
 		}
@@ -248,7 +246,7 @@ public class BuildService {
 		sb.append(foot);
 
 		String filePath = "site/index.html";
-		
+
 		Util.writeFile(filePath, sb.toString());
 		System.out.println(filePath + " 생성");
 	}
@@ -256,7 +254,6 @@ public class BuildService {
 	private void buildArticleDetailPages() {
 		List<Board> boards = articleService.getForPrintBoards();
 
-		
 		String foot = Util.getFileContents("site_template/foot.html");
 		String template = Util.getFileContents("site_template/detail.html");
 
@@ -286,33 +283,37 @@ public class BuildService {
 				bodyHtml = article.body;
 
 				html = html.replace("{$body}", bodyHtml);
-				
+
 				if (count == articles.size() - 1 && count == 0) {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-list-" + board.getCode()
+							+ "-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"#\" class=\"hover-underline\"> 이전글 &gt;</a> ";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count == articles.size() - 1) {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-list-" + board.getCode()
+							+ "-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id - 1)
 							+ ".html\" class=\"hover-underline\"> 이전글 &gt;</a> ";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count != 0) {
 					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id + 1)
 							+ ".html\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-list-" + board.getCode()
+							+ "-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id - 1)
 							+ ".html\" class=\"hover-underline\"> 이전글 &gt;</a>";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count == 0) {
 					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id + 1)
 							+ ".html\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode() + "-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-list-" + board.getCode()
+							+ "-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"#\" class=\"hover-underline\"> 이전글 &gt;</a>";
 					html = html.replace("{$detail-page}", pageHtml);
 				}
-				
+
 				html = html.replace("${site-domain}", "blog.homar.co.kr");
 				html = html.replace("${file-name}", getArticleDetailFileName(article.id));
 				sb.append(html);
@@ -321,7 +322,7 @@ public class BuildService {
 				String fileName = board.getCode() + "-article-detail-" + article.id + ".html";
 				articleCount--;
 				String filePath = "site/" + fileName;
-				
+
 				Util.writeFile(filePath, sb.toString());
 				System.out.println(filePath + " 생성");
 			}
@@ -332,8 +333,7 @@ public class BuildService {
 	private String getHeadHtml(String pageName) {
 		return getHeadHtml(pageName, null);
 	}
-	
-	
+
 	private String getHeadHtml(String pageName, Object relObj) {
 		String head = Util.getFileContents("site_template/head.html");
 
@@ -359,12 +359,11 @@ public class BuildService {
 		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
-		
-		String pageTitle = getPageTitle(pageName, relObj) ;
-		
+
+		String pageTitle = getPageTitle(pageName, relObj);
+
 		head = head.replace("${page-title}", pageTitle);
-		
-		
+
 		String siteName = "DongLog";
 		String siteSubject = "개발자의 기술/일상 블로그";
 		String siteDescription = "개발자의 기술/일상 관련 글들을 공유합니다.";
@@ -372,9 +371,9 @@ public class BuildService {
 		String siteDomain = "blog.homar.co.kr";
 		String siteMainUrl = "https://" + siteDomain;
 		String currentDate = Util.getNowDateStr().replace(" ", "T");
-		
-		if ( relObj instanceof Article ) {
-			Article article = (Article)relObj;
+
+		if (relObj instanceof Article) {
+			Article article = (Article) relObj;
 			siteSubject = article.title;
 			siteDescription = article.body;
 			siteDescription = siteDescription.replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "");
@@ -392,25 +391,24 @@ public class BuildService {
 		return head;
 	}
 
-	
 	private String getPageTitle(String pageName, Object relObj) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		String forPringtPageName = pageName;
-		if(forPringtPageName.equals("index")) {
+		if (forPringtPageName.equals("index")) {
 			forPringtPageName = "home";
 		}
 		forPringtPageName = forPringtPageName.toUpperCase();
 		forPringtPageName = forPringtPageName.replaceAll("-", " ");
 		sb.append("DongLog | ");
 		sb.append(forPringtPageName);
-		
-		if(relObj instanceof Article) {
+
+		if (relObj instanceof Article) {
 			Article article = (Article) relObj;
-			
+
 			sb.insert(0, article.title + " | ");
 		}
-		
+
 		return sb.toString();
 	}
 
@@ -423,17 +421,19 @@ public class BuildService {
 			return "<i class=\"fab fa-free-code-camp\"></i> <span>IT LIST</span>";
 		} else if (pageName.startsWith("article_list_notice")) {
 			return "<i class=\"fas fa-flag\"></i> <span>NOTICE LIST</span>";
+		} else if (pageName.startsWith("article_list_free")) {
+			return "<i class=\"fab fa-freebsd\"></i> <span>FREE</span>";			
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
-		} else if (pageName.startsWith("stat")) {
-			return "<i class=\"fas fa-clipboard-list\"></i> <span>STATISTICS</span>";
 		}
 
 		return "";
 	}
+
 	private String getArticleDetailFileName(int id) {
 		return "article_detail_" + id + ".html";
 	}
+
 	private String getArticleListFileName(Board board, int page) {
 		return getArticleListFileName(board.code, page);
 	}
