@@ -143,7 +143,7 @@ public class BuildService {
 		for (int i = start; i <= end; i++) {
 			Article article = articles.get(i);
 
-			String link = getArticleDetailFileName(board.getCode(), article.id);
+			String link = getArticleDetailFileName(article.id);
 
 			mainContent.append("<div>");
 			mainContent.append("<div class=\"article-list__cell-id\">" + article.id + "</div>");
@@ -345,7 +345,7 @@ public class BuildService {
 				sb.append(html);
 				sb.append(foot);
 
-				String fileName = board.getCode() + "-article-detail-" + article.id + ".html";
+				String fileName = "article-detail-" + article.id + ".html";
 				articleCount--;
 				String filePath = "site/" + fileName;
 
@@ -468,9 +468,4 @@ public class BuildService {
 	private String getArticleListFileName(String boardCode, int page) {
 		return "article-list-" + boardCode + "-" + page + ".html";
 	}
-
-	private String getArticleDetailFileName(String code, int id) {
-		return code + "-article-detail-" + id + ".html";
-	}
-
 }
