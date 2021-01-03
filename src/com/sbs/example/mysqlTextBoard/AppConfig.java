@@ -12,4 +12,8 @@ public class AppConfig {
 	public String getDisqusForumName() {
 		return "homar-ssg";
 	}
+	
+	public String getGa4PropertyId() {
+		return "256605990";
+	}
 }
