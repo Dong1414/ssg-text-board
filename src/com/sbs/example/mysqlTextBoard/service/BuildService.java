@@ -1,22 +1,24 @@
 package com.sbs.example.mysqlTextBoard.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
-import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.util.Util;
 
 public class BuildService {
 
 	private ArticleService articleService;
 	private MemberService memberService;
+	private DisqusApiService disqusApiService;
 
 	public BuildService() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
+		disqusApiService = Container.disqusApiService;
 	}
 
 	public void buildSite() {
@@ -26,10 +28,32 @@ public class BuildService {
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
 
+		loadDisqusData();
+		
 		buildIndexPage();
 		buildArticleDetailPages();
 		buildListPages();
 		buildStat();
+	}
+	
+	private void loadDisqusData() {
+		List<Article> articles = articleService.getArticles();
+
+		for (Article article : articles) {
+			Map<String, Object> disqusArticleData = disqusApiService.getArticleData(article);
+
+			if (disqusArticleData != null) {
+				int likesCount = (int) disqusArticleData.get("likesCount");
+				int commentsCount = (int) disqusArticleData.get("commentsCount");
+
+				Map<String, Object> modifyArgs = new HashMap<>();
+				modifyArgs.put("id", article.id);
+				modifyArgs.put("likesCount", likesCount);
+				modifyArgs.put("commentsCount", commentsCount);
+
+				articleService.modify(modifyArgs);
+			}
+		}
 	}
 
 	private void buildStat() {
@@ -277,7 +301,9 @@ public class BuildService {
 				html += "<div class=\"article-list__cell-title\">" + article.title + "</div>";
 				html += "<div class=\"article-list__cell-writer\">" + writer + "</div>";
 				html += "<div class=\"article-list__cell-reg-date\">" + article.regDate + "</div>";
-
+				html += "<div class=\"article-list__likes-count\">추천 : " + article.likesCount + "</div>";
+				html += "<div class=\"article-list__comments-count\">댓글 : " + article.commentsCount + "</div>";
+				
 				html = template.replace("{$title}", html);
 
 				bodyHtml = article.body;
@@ -364,7 +390,7 @@ public class BuildService {
 
 		head = head.replace("${page-title}", pageTitle);
 
-		String siteName = "DongLog";
+		String siteName = Container.config.getSiteName();
 		String siteSubject = "개발자의 기술/일상 블로그";
 		String siteDescription = "개발자의 기술/일상 관련 글들을 공유합니다.";
 		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, 리눅스, 리액트";
@@ -400,7 +426,8 @@ public class BuildService {
 		}
 		forPringtPageName = forPringtPageName.toUpperCase();
 		forPringtPageName = forPringtPageName.replaceAll("-", " ");
-		sb.append("DongLog | ");
+		
+		sb.append(Container.config.getSiteName() + " | ");
 		sb.append(forPringtPageName);
 
 		if (relObj instanceof Article) {
@@ -430,8 +457,8 @@ public class BuildService {
 		return "";
 	}
 
-	private String getArticleDetailFileName(int id) {
-		return "article_detail_" + id + ".html";
+	public String getArticleDetailFileName(int id) {
+		return "article-detail-" + id + ".html";
 	}
 
 	private String getArticleListFileName(Board board, int page) {
