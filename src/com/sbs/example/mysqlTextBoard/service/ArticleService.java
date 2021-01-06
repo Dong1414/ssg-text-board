@@ -30,7 +30,9 @@ public class ArticleService {
 	public int write(int boardId, int memberId, String title, String body) {
 		return articleDao.add(boardId, memberId, title, body);
 	}
-
+	public void updatePageHits() {
+		articleDao.updatePageHits();
+	}
 	public int modify(int id, String title, String body) {
 		Map<String, Object> modifyArgs = new HashMap<>();
 		modifyArgs.put("id", id);

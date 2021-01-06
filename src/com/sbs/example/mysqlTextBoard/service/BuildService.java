@@ -29,13 +29,38 @@ public class BuildService {
 		Util.copy("site_template/app.js", "site/app.js");
 
 		loadDisqusData();
-		
+
 		buildIndexPage();
+		buildArticleSearchPage();
 		buildArticleDetailPages();
 		buildListPages();
 		buildStat();
 	}
-	
+
+	private void buildArticleSearchPage() {
+		List<Article> articles = articleService.getForPrintArticles(0);
+		String jsonText = Util.getJsonText(articles);
+		Util.writeFile("site/article_list.json", jsonText);
+		
+		Util.copy("site_template/article_search.js", "site/article_search.js");
+
+		StringBuilder sb = new StringBuilder();
+
+		String head = getHeadHtml("article_search");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		String html = Util.getFileContents("site_template/search.html");
+		
+		sb.append(head);
+		sb.append(html);
+		sb.append(foot);
+		
+		String filePath = "site/article-search.html";
+		Util.writeFile(filePath, sb.toString());
+		System.out.println(filePath + " 생성");
+
+	}
+
 	private void loadDisqusData() {
 		List<Article> articles = articleService.getArticles();
 
@@ -252,7 +277,7 @@ public class BuildService {
 			String board = articleService.getBoardByCode(article.boardId);
 			count++;
 			html += "<div class=\"list_content\">\n";
-			html += "<a href=\"" + board + "-article-detail-" + article.id + ".html\" class=\"link_post\">\n";
+			html += "<a href=\"article-detail-" + article.id + ".html\" class=\"link_post\">\n";
 			html += "<nav>\n";
 			html += "<strong class=\"tit_post\">" + article.getTitle() + "</strong>\n";
 			html += "<p class=\"txt_post\">" + article.body + "</p>\n";
@@ -303,7 +328,7 @@ public class BuildService {
 				html += "<div class=\"article-list__cell-reg-date\">" + article.regDate + "</div>";
 				html += "<div class=\"article-list__likes-count\">추천 : " + article.likesCount + "</div>";
 				html += "<div class=\"article-list__comments-count\">댓글 : " + article.commentsCount + "</div>";
-				
+
 				html = template.replace("{$title}", html);
 
 				bodyHtml = article.body;
@@ -312,30 +337,26 @@ public class BuildService {
 
 				if (count == articles.size() - 1 && count == 0) {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode()
-							+ "-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-list-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"#\" class=\"hover-underline\"> 이전글 &gt;</a> ";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count == articles.size() - 1) {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode()
-							+ "-1.html\" class=\"hover-underline\">목록</a>";
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id - 1)
+					pageHtml += "<a href=\"article-list-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-detail-" + (article.id - 1)
 							+ ".html\" class=\"hover-underline\"> 이전글 &gt;</a> ";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count != 0) {
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id + 1)
+					pageHtml += "<a href=\"article-detail-" + (article.id + 1)
 							+ ".html\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode()
-							+ "-1.html\" class=\"hover-underline\">목록</a>";
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id - 1)
+					pageHtml += "<a href=\"article-list-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-detail-" + (article.id - 1)
 							+ ".html\" class=\"hover-underline\"> 이전글 &gt;</a>";
 					html = html.replace("{$detail-page}", pageHtml);
 				} else if (count == 0) {
-					pageHtml += "<a href=\"" + board.getCode() + "-article-detail-" + (article.id + 1)
+					pageHtml += "<a href=\"article-detail-" + (article.id + 1)
 							+ ".html\" class=\"hover-underline\">&lt; 다음글 </a>";
-					pageHtml += "<a href=\"article-list-" + board.getCode()
-							+ "-1.html\" class=\"hover-underline\">목록</a>";
+					pageHtml += "<a href=\"article-list-1.html\" class=\"hover-underline\">목록</a>";
 					pageHtml += "<a href=\"#\" class=\"hover-underline\"> 이전글 &gt;</a>";
 					html = html.replace("{$detail-page}", pageHtml);
 				}
@@ -426,7 +447,7 @@ public class BuildService {
 		}
 		forPringtPageName = forPringtPageName.toUpperCase();
 		forPringtPageName = forPringtPageName.replaceAll("-", " ");
-		
+
 		sb.append(Container.config.getSiteName() + " | ");
 		sb.append(forPringtPageName);
 
@@ -449,7 +470,9 @@ public class BuildService {
 		} else if (pageName.startsWith("article_list_notice")) {
 			return "<i class=\"fas fa-flag\"></i> <span>NOTICE LIST</span>";
 		} else if (pageName.startsWith("article_list_free")) {
-			return "<i class=\"fab fa-freebsd\"></i> <span>FREE</span>";			
+			return "<i class=\"fab fa-freebsd\"></i> <span>FREE</span>";
+		} else if (pageName.equals("article_search")) {
+			return "<i class=\"fas fa-search\"></i> <span>ARTICLE SEARCH</span>";
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
 		}
