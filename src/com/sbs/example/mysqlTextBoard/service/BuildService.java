@@ -322,12 +322,12 @@ public class BuildService {
 				count--;
 				sb.append(head);
 
-				html += "<div class=\"article-list__cell-id\">" + article.id + "</div>";
-				html += "<div class=\"article-list__cell-title\">" + article.title + "</div>";
-				html += "<div class=\"article-list__cell-writer\">" + writer + "</div>";
-				html += "<div class=\"article-list__cell-reg-date\">" + article.regDate + "</div>";
-				html += "<div class=\"article-list__likes-count\">추천 : " + article.likesCount + "</div>";
-				html += "<div class=\"article-list__comments-count\">댓글 : " + article.commentsCount + "</div>";
+				html += "<div class=\"article-detail__cell-id\">" + article.id + "</div>";
+				html += "<div class=\"article-detail__cell-title\">" + article.title + "</div>";
+				html += "<div class=\"article-detail__cell-writer\">" + writer + "</div>";
+				html += "<div class=\"article-detail__cell-reg-date\">" + article.regDate + "</div>";
+				html += "<div class=\"article-detail__likes-count\">추천 : " + article.likesCount + "</div>";
+				html += "<div class=\"article-detail__comments-count\">댓글 : " + article.commentsCount + "</div>";
 
 				html = template.replace("{$title}", html);
 

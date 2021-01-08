@@ -227,12 +227,10 @@ a {
 
 /*리스트 시작*/
 :root {
---article-list__cell-id__width:70px;
---article-list__cell-reg-date__width:190px;
---article-list__cell-writer__width:120px;
---article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width) - var(--article-list__likes-count__width) - var(--article-list__comments-count__width));
---article-list__likes-count__width:70px;
---article-list__comments-count__width:70px;
+--article-list__cell-id__width:100px;
+--article-list__cell-reg-date__width:220px;
+--article-list__cell-writer__width:150px;
+--article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width));
 }
 .article-list > * > div {
   display:flex;
@@ -354,6 +352,15 @@ border-top:1px solid black;
 
 
 /*디테일 시작 */
+:root {
+--article-detail__cell-id__width:70px;
+--article-detail__cell-reg-date__width:190px;
+--article-detail__cell-writer__width:120px;
+--article-detail__cell-title__width:calc(100% - var(--article-detail__cell-id__width) - var(--article-detail__cell-reg-date__width) - var(--article-detail__cell-writer__width) - var(--article-detail__likes-count__width) - var(--article-detail__comments-count__width));
+--article-detail__likes-count__width:70px;
+--article-detail__comments-count__width:70px;
+}
+
 
 .detail-list > * > div {
   display:flex;
@@ -396,6 +403,41 @@ background-color:black;
   margin-bottom:15px;
   margin-left:15px;  
 }
+
+.detail-list > * > .detail-div > div {
+box-sizing:border-box;
+text-align:center;
+padding-top:10px;
+padding-bottom:10px;
+}
+.article-detail__cell-id {
+width:var(--article-detail__cell-id__width);
+}
+
+.article-detail__cell-reg-date {
+width:var(--article-detail__cell-reg-date__width);
+}
+
+.article-detail__cell-writer {
+width:var(--article-detail__cell-writer__width);
+}
+
+.article-detail__cell-title {
+width:var(--article-detail__cell-title__width);
+}	
+
+.article-detail__comments-count {
+width:var(--article-detail__comments-count__width);
+}
+
+.article-detail__likes-count {
+width:var(--article-detail__likes-count__width);
+}
+.article-list > main .article-list__cell-title {
+text-align:left;
+padding-left:10px;
+}
+
 /*디테일 메뉴 */
 .article-detail__menu{
 	margin-left: 30px;
@@ -423,6 +465,7 @@ background-color:black;
 .article-detail__menu > a:hover{
   color:red;
 }
+
 
 /*디테일 메뉴 끝 */
 
