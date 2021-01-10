@@ -49,6 +49,8 @@ a {
 }
 
 /* 라이브러리 */
+
+
 .flex {
 	display: flex;
 }
@@ -121,6 +123,15 @@ a {
 
 .con {
 	width: 1200px;
+}
+
+.index-list{
+	margin-left: auto;
+	margin-right: auto;
+	width: 1200px;
+}
+.index-list-min-width{
+	min-width:1200px;
 }
 
 /* 로고 시작 */
@@ -583,3 +594,49 @@ position:absolute;
   font-size:50px;
 }
 /* 탑바 끝*/
+/* 화면 사이즈 */
+@media ( max-width:1100px ) {
+  .index-list{
+  	width:auto;
+  }
+  .index-list-min-width{
+    margin-left:10px;
+  	min-width:auto;
+  }
+  .con{
+	width:auto;
+  }
+  
+  .con-min-width {
+    min-width:auto;
+  }
+  
+   .detail-main{
+    width:auto !important;
+  }
+  
+  .side-menu{
+    display:flex;
+  }
+  .detail-list{
+    width:auto;
+  }
+  .bottom-bar {
+    width: auto;
+  }
+  .article-list__title, .article-list__cell-id, .article-list__cell-writer, .article-list__cell-reg-date {
+    display:none;
+  }
+  .article-list__cell-title{
+    font-size:15px;
+    width:100%!important;
+  }
+
+ @media ( max-width:800px ) {
+  .detail-title{
+  	display:none;
+  }
+ 
+}
+
+/* 화면 사이즈 끝 */
