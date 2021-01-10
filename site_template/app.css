@@ -565,17 +565,18 @@ position:absolute;
 }
 /* 상태 끝 */
 /* 탑바 */
-.topkey{
+.topbutton{
   position:fixed;
+  display:none;
   text-align:center;
   bottom:100px;
-  right:200px;
+  right:150px;
   width:50px;
   height:50px;
   background-color:#11264f;
   opacity:80%;
   z-index:50;
-  transition: transform .6s;
+  transition: transform 1s;
 }
 .fa-angle-double-up{
   color:white;
