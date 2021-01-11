@@ -27,6 +27,7 @@ public class BuildService {
 
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
+		Util.copy("site_template/scroll_button.js", "site/scroll_button.js");
 
 		loadDisqusData();
 
@@ -265,9 +266,17 @@ public class BuildService {
 
 		String head = getHeadHtml("index");
 		String foot = Util.getFileContents("site_template/foot.html");
-
+		
 		String mainHtml = Util.getFileContents("site_template/index.html");
-		head = head.replace("<main class=\"flex-grow-1\">", "<main class=\"flex-grow-1 back-image\">");
+		head = head.replace("<video style=\"display: none;\"></video>", "<div class=\"jb-box\">\r\n"
+				+ "  <video muted autoplay loop>\r\n"
+				+ "    <source src=\"index.mp4\" type=\"video/mp4\">\r\n"
+				+ "    <strong>Your browser does not support the video tag.</strong>\r\n"
+				+ "  </video>\r\n"
+				+ "  <div class=\"jb-text\">\r\n"
+				+ "    <p>Do not try to be original, just try to be good.</p>\r\n"
+				+ "  </div>\r\n"
+				+ "</div>");
 		head = head.replace("<h1 class=\"con\">", "<h1 class=\"con color-w\">");
 		sb.append(head);
 		String html = "";
