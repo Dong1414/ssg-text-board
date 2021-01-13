@@ -1,20 +1,30 @@
 package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
+import lombok.Data;
 
+@Data
 public class Article {
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public String title;
-	public String body;
-	public int memberId;
-	public int boardId;
-	public int hit;
-	public int likesCount;
-	public int commentsCount;
-
-	public String extra__writer;
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String title;
+	private String body;
+	private int memberId;
+	private int boardId;
+	private int hit;
+	private int likesCount;
+	private int commentsCount;
+	
+	private String extra__tag;
+	private String extra__writer;
+	
+	public String[] getTagList() {
+		
+		String[] tagList = extra__tag.split(",");
+		
+		return tagList;
+	}
 
 	public Article(Map<String, Object> map) {
 		this.id = (int) map.get("id");
@@ -30,25 +40,15 @@ public class Article {
 		if (map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
 		}
+		if (map.containsKey("extra__tag")) {
+			this.extra__writer = (String) map.get("tags");
+		}
 	}
 
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
 				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + "]";
-	}
-
-	public String getId() {
-
-		return id+"";
-	}
-
-	public String getRegDate() {
-		return regDate;
-	}
-
-	public String getTitle() {
-		return title;
 	}
 
 }

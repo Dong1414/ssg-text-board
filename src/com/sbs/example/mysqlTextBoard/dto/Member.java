@@ -2,13 +2,15 @@ package com.sbs.example.mysqlTextBoard.dto;
 
 import java.util.Map;
 
+import lombok.Data;
+@Data
 public class Member {
-	public int id;
-	public String regDate;
-	public String updateDate;
-	public String loginId;
-	public String loginPw;
-	public String name;
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String loginId;
+	private String loginPw;
+	private String name;
 
 	public Member(Map<String, Object> map) {
 		this.id = (int) map.get("id");
@@ -24,11 +26,9 @@ public class Member {
 		return "Member [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", loginId=" + loginId
 				+ ", loginPw=" + loginPw + ", name=" + name + "]";
 	}
-
 	public String getType() {
 		return isAdmin() ? "관리자" : "일반회원";
 	}
-
 	public boolean isAdmin() {
 		return loginId.equals("test1");
 	}
