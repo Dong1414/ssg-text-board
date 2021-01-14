@@ -15,16 +15,8 @@ public class Article {
 	private int hit;
 	private int likesCount;
 	private int commentsCount;
-	
-	private String extra__tag;
+
 	private String extra__writer;
-	
-	public String[] getTagList() {
-		
-		String[] tagList = extra__tag.split(",");
-		
-		return tagList;
-	}
 
 	public Article(Map<String, Object> map) {
 		this.id = (int) map.get("id");
@@ -39,9 +31,6 @@ public class Article {
 		this.commentsCount = (int) map.get("commentsCount");
 		if (map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
-		}
-		if (map.containsKey("extra__tag")) {
-			this.extra__writer = (String) map.get("tags");
 		}
 	}
 

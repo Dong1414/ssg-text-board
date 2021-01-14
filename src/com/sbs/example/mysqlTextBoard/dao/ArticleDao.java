@@ -18,9 +18,9 @@ public class ArticleDao {
 		sql.append("SELECT *");
 		sql.append("FROM article");
 		sql.append("ORDER BY id DESC");
-
+		
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
-
+		
 		for (Map<String, Object> articleMap : articleMapList) {
 			articles.add(new Article(articleMap));
 		}
@@ -133,13 +133,10 @@ public class ArticleDao {
 
 		SecSql sql = new SecSql();
 		sql.append("SELECT A.*");
-		sql.append("IFNULL(GROUP_CONCAT(T.body), '') AS tags");
 		sql.append(", M.name AS extra__writer");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
-		sql.append("ON A.memberId = M.id");
-		sql.append("LEFT JOIN `tag` AS T");
-		sql.append("ON A.Id = T.relId");
+		sql.append("ON A.memberId = M.id");		
 		if (boardId != 0) {
 			sql.append("WHERE A.boardId = ?", boardId);
 		}

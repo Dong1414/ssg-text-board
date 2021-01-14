@@ -136,6 +136,7 @@ public class BuildService {
 		for (Board board : boards) {
 
 			List<Article> articles = articleService.getForPrintArticles(board.getId());
+			
 			int articlesCount = articles.size();
 
 			int totalPage = (int) Math.ceil((double) articlesCount / itemsInAPage);
@@ -168,7 +169,8 @@ public class BuildService {
 
 		for (int i = start; i <= end; i++) {
 			Article article = articles.get(i);
-
+			
+			
 			String link = getArticleDetailFileName(article.getId());
 
 			mainContent.append("<div>");
@@ -282,10 +284,12 @@ public class BuildService {
 		String html = "";
 		List<Article> articles = articleService.getArticles();
 		int count = 0;
+		
 		for (Article article : articles) {
 			String board = articleService.getBoardByCode(article.getBoardId());
 			count++;
-			html += "<div class=\"list_content\">\n";
+			
+			html += "<div data-aos=\"fade-up\" data-aos-anchor-placement=\"top-bottom\" class=\"list_content\">\n";
 			html += "<a href=\"article-detail-" + article.getId() + ".html\" class=\"link_post\">\n";
 			html += "<nav>\n";
 			html += "<strong class=\"tit_post\">" + article.getTitle() + "</strong>\n";
