@@ -45,7 +45,7 @@ public class BuildService {
 		String jsonText = Util.getJsonText(articlesByTagMap);
 		Util.writeFile("site/article_tag.json", jsonText);
 
-		
+		System.out.println("asdf");
 
 	}
 
