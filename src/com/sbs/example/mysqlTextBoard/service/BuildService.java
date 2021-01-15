@@ -1,5 +1,6 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,17 +33,27 @@ public class BuildService {
 		loadDisqusData();
 
 		buildIndexPage();
-		buildArticleSearchPage();
+		buildArticleTagPage();
 		buildArticleDetailPages();
 		buildListPages();
+		buildTagListPages();
 		buildStat();
 	}
 
-	private void buildArticleSearchPage() {
+	private void buildTagListPages() {
+		Map<String, List<Article>> articlesByTagMap = Container.articleService.getArticlesByTagMap();
+		String jsonText = Util.getJsonText(articlesByTagMap);
+		Util.writeFile("site/article_tag.json", jsonText);
+
+		
+
+	}
+
+	public void buildArticleTagPage() {
 		List<Article> articles = articleService.getForPrintArticles(0);
 		String jsonText = Util.getJsonText(articles);
 		Util.writeFile("site/article_list.json", jsonText);
-		
+
 		Util.copy("site_template/article_search.js", "site/article_search.js");
 
 		StringBuilder sb = new StringBuilder();
@@ -51,11 +62,11 @@ public class BuildService {
 		String foot = Util.getFileContents("site_template/foot.html");
 
 		String html = Util.getFileContents("site_template/search.html");
-		
+
 		sb.append(head);
 		sb.append(html);
 		sb.append(foot);
-		
+
 		String filePath = "site/article-search.html";
 		Util.writeFile(filePath, sb.toString());
 		System.out.println(filePath + " 생성");
@@ -136,7 +147,7 @@ public class BuildService {
 		for (Board board : boards) {
 
 			List<Article> articles = articleService.getForPrintArticles(board.getId());
-			
+
 			int articlesCount = articles.size();
 
 			int totalPage = (int) Math.ceil((double) articlesCount / itemsInAPage);
@@ -169,8 +180,7 @@ public class BuildService {
 
 		for (int i = start; i <= end; i++) {
 			Article article = articles.get(i);
-			
-			
+
 			String link = getArticleDetailFileName(article.getId());
 
 			mainContent.append("<div>");
@@ -268,27 +278,24 @@ public class BuildService {
 
 		String head = getHeadHtml("index");
 		String foot = Util.getFileContents("site_template/foot.html");
-		
+
 		String mainHtml = Util.getFileContents("site_template/index.html");
-		head = head.replace("<video style=\"display: none;\"></video>", "<div class=\"jb-box\">\r\n"
-				+ "  <video muted autoplay loop>\r\n"
-				+ "    <source src=\"index.mp4\" type=\"video/mp4\">\r\n"
-				+ "    <strong>Your browser does not support the video tag.</strong>\r\n"
-				+ "  </video>\r\n"
-				+ "  <div class=\"jb-text\">\r\n"
-				+ "    <p>Do not try to be original, just try to be good.</p>\r\n"
-				+ "  </div>\r\n"
-				+ "</div>");
+		head = head.replace("<video style=\"display: none;\"></video>",
+				"<div class=\"jb-box\">\r\n" + "  <video muted autoplay loop>\r\n"
+						+ "    <source src=\"index.mp4\" type=\"video/mp4\">\r\n"
+						+ "    <strong>Your browser does not support the video tag.</strong>\r\n" + "  </video>\r\n"
+						+ "  <div class=\"jb-text\">\r\n"
+						+ "    <p>Do not try to be original, just try to be good.</p>\r\n" + "  </div>\r\n" + "</div>");
 		head = head.replace("<h1 class=\"con\">", "<h1 class=\"con color-w\">");
 		sb.append(head);
 		String html = "";
 		List<Article> articles = articleService.getArticles();
 		int count = 0;
-		
+
 		for (Article article : articles) {
 			String board = articleService.getBoardByCode(article.getBoardId());
 			count++;
-			
+
 			html += "<div data-aos=\"fade-up\" data-aos-anchor-placement=\"top-bottom\" class=\"list_content\">\n";
 			html += "<a href=\"article-detail-" + article.getId() + ".html\" class=\"link_post\">\n";
 			html += "<nav>\n";
@@ -330,14 +337,13 @@ public class BuildService {
 				String bodyHtml = "";
 				String pageHtml = "";
 				StringBuilder sb = new StringBuilder();
-				String writer = memberService.getMemberName(article.getMemberId());
 
 				count--;
 				sb.append(head);
 
 				html += "<div class=\"article-detail__cell-id\">" + article.getId() + "</div>";
 				html += "<div class=\"article-detail__cell-title\">" + article.getTitle() + "</div>";
-				html += "<div class=\"article-detail__cell-writer\">" + writer + "</div>";
+				html += "<div class=\"article-detail__cell-writer\">" + article.getExtra__writer() + "</div>";
 				html += "<div class=\"article-detail__cell-reg-date\">" + article.getRegDate() + "</div>";
 				html += "<div class=\"article-detail__likes-count\">추천 : " + article.getLikesCount() + "</div>";
 				html += "<div class=\"article-detail__comments-count\">댓글 : " + article.getCommentsCount() + "</div>";
@@ -345,8 +351,19 @@ public class BuildService {
 				html = template.replace("{$title}", html);
 
 				bodyHtml = article.getBody();
-
 				html = html.replace("{$body}", bodyHtml);
+				
+				String tagHtml = "";
+				if (!article.getExtra__tagsStr().equals("")) {
+					String[] tags = article.getExtra__tagsStr().split("#");
+					
+					for(int i = 1 ; i < tags.length ; i++) {
+						
+						tagHtml += "<a href=\"#\" class=\"tag_link\">#" + tags[i] + "  </a>"; 
+					}
+					
+				}				
+				html = html.replace("{$tag}", tagHtml);
 
 				if (count == articles.size() - 1 && count == 0) {
 					pageHtml += "<a href=\"#\" class=\"hover-underline\">&lt; 다음글 </a>";

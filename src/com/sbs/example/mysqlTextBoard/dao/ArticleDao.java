@@ -134,14 +134,19 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("SELECT A.*");
 		sql.append(", M.name AS extra__writer");
+		sql.append(", IF (GROUP_CONCAT(T.body SEPARATOR \" #\") IS NOT NULL, CONCAT(\"#\", GROUP_CONCAT(T.body SEPARATOR \" #\")),\"\") AS extra__tagsStr");
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
-		sql.append("ON A.memberId = M.id");		
+		sql.append("ON A.memberId = M.id");
+		sql.append("LEFT JOIN `tag` AS T");
+		sql.append("ON T.relTypeCode = 'article'");		
+		sql.append("AND A.id = T.relId");			
 		if (boardId != 0) {
 			sql.append("WHERE A.boardId = ?", boardId);
 		}
+		sql.append("GROUP BY A.id");	
 		sql.append("ORDER BY A.id DESC");
-
+		
 		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
 
 		for (Map<String, Object> articleMap : articleMapList) {
@@ -253,5 +258,32 @@ public class ArticleDao {
 
 		return MysqlUtil.selectRowStringValue(sql);
 	}
+	
+	public List<Article> getForPrintArticlesByTag(String tagBody) {
+		List<Article> articles = new ArrayList<>();
 
+		SecSql sql = new SecSql();
+		sql.append("SELECT A.*");
+		sql.append(", M.name AS extra__writer");
+		sql.append(", B.name AS extra__boardName");
+		sql.append(", B.code AS extra__boardCode");
+		sql.append("FROM article AS A");
+		sql.append("INNER JOIN `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("INNER JOIN `board` AS B");
+		sql.append("ON A.boardId = B.id");
+		sql.append("INNER JOIN `tag` AS T");
+		sql.append("ON T.relTypeCode = 'article'");
+		sql.append("AND A.id = T.relId");
+		sql.append("WHERE T.body = ?", tagBody);
+		sql.append("ORDER BY A.id DESC");
+
+		List<Map<String, Object>> articleMapList = MysqlUtil.selectRows(sql);
+
+		for (Map<String, Object> articleMap : articleMapList) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+	}
 }

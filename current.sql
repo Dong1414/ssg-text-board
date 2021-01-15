@@ -207,3 +207,18 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2021-01-14 20:59:00
+SELECT A.*, M.name AS extra__writer,
+IF (
+    GROUP_CONCAT(T.body SEPARATOR " #") IS NOT NULL,
+    CONCAT("#", GROUP_CONCAT(T.body SEPARATOR " #")),
+    ""
+) AS tagsStr
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN tag AS T
+ON T.relTypeCode = 'article'
+AND A.id = T.relId
+WHERE A.boardId = 2
+GROUP BY A.id
+ORDER BY A.id DESC;

@@ -15,6 +15,7 @@ public class Article {
 	private int hit;
 	private int likesCount;
 	private int commentsCount;
+	private String extra__tagsStr;
 
 	private String extra__writer;
 
@@ -32,12 +33,8 @@ public class Article {
 		if (map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
-				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + "]";
-	}
-
+		if (map.containsKey("extra__tagsStr")) {
+			this.extra__tagsStr = (String) map.get("extra__tagsStr");
+		}
+	}	
 }
