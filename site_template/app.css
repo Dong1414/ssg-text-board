@@ -256,7 +256,8 @@ a {
 --article-list__cell-id__width:100px;
 --article-list__cell-reg-date__width:220px;
 --article-list__cell-writer__width:150px;
---article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width));
+--article-list__cell-lookup__width:40px;
+--article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width) - var(--article-list__cell-lookup__width));
 }
 .article-list > * > div {
   display:flex;
@@ -281,6 +282,7 @@ text-align:center;
 padding-top:10px;
 padding-bottom:10px;
 }
+
 .flex {
   display:flex;
 }
@@ -304,12 +306,8 @@ width:var(--article-list__cell-writer__width);
 width:var(--article-list__cell-title__width);
 }	
 
-.article-list__comments-count {
-width:var(--article-list__comments-count__width);
-}
-
-.article-list__likes-count {
-width:var(--article-list__likes-count__width);
+.article-list__cell-lookup{
+width:var(--article-list__cell-lookup__width);
 }
 
 .article-list > main .article-list__cell-title {

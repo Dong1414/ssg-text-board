@@ -12,7 +12,6 @@ import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
 import com.sbs.example.mysqlTextBoard.service.GoogleAnalyticsApiService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 import com.sbs.example.mysqlTextBoard.service.TagService;
-import com.sbs.example.mysqlTextBoard.service.Tagservice;
 import com.sbs.example.mysqlTextBoard.session.Session;
 
 public class Container {

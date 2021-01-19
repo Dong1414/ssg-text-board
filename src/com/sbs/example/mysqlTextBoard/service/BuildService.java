@@ -45,8 +45,23 @@ public class BuildService {
 		String jsonText = Util.getJsonText(articlesByTagMap);
 		Util.writeFile("site/article_tag.json", jsonText);
 
-		System.out.println("asdf");
+		StringBuilder sb = new StringBuilder();
 
+		String head = getHeadHtml("article_tag");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		String html = Util.getFileContents("site_template/article_list_by_tag.html");
+
+		System.out.println(articlesByTagMap.get("DB"));
+		
+		
+		sb.append(head);
+		sb.append(html);
+		sb.append(foot);
+
+		String filePath = "site/article-search.html";
+		Util.writeFile(filePath, sb.toString());
+		System.out.println(filePath + " 생성");
 	}
 
 	public void buildArticleTagPage() {
@@ -189,7 +204,7 @@ public class BuildService {
 			mainContent.append("<div class=\"article-list__cell-writer\">" + article.getExtra__writer() + "</div>");
 			mainContent.append("<div class=\"article-list__cell-title\">");
 
-			mainContent.append("<a href=\"" + link + "\" class=\"hover-underline\">" + article.getTitle() + "</a>");
+			mainContent.append("<a href=\"" + link + "\" class=\"hover-underline\">" + article.getTitle() + " (" + article.getCommentsCount() + ")</a>");
 
 			mainContent.append("</div>");
 			mainContent.append("</div>");
@@ -505,6 +520,8 @@ public class BuildService {
 			return "<i class=\"fas fa-search\"></i> <span>ARTICLE SEARCH</span>";
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
+		} else if (pageName.equals("article_tag")) {
+			return "<i class=\"fas fa-clipboard-list\"></i> <span>TAG LIST</span>";
 		}
 
 		return "";
