@@ -205,8 +205,8 @@ public class BuildService {
 			mainContent.append("<div class=\"article-list__cell-title\">");
 
 			mainContent.append("<a href=\"" + link + "\" class=\"hover-underline\">" + article.getTitle() + " (" + article.getCommentsCount() + ")</a>");
-
 			mainContent.append("</div>");
+			mainContent.append("<div class=\"article-list__cell-lookup\">" + article.getHitCount() + "</div>");
 			mainContent.append("</div>");
 		}
 

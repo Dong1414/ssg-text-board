@@ -15,6 +15,7 @@ public class Article {
 	private int hit;
 	private int likesCount;
 	private int commentsCount;
+	private int hitCount;
 	private String extra__tagsStr;
 
 	private String extra__writer;
@@ -29,6 +30,7 @@ public class Article {
 		this.boardId = (int) map.get("boardId");
 		this.hit=(int) map.get("hit");
 		this.likesCount = (int) map.get("likesCount");
+		this.hitCount = (int) map.get("hitCount");
 		this.commentsCount = (int) map.get("commentsCount");
 		if (map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
