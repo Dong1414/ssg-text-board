@@ -25,6 +25,7 @@ public class GoogleAnalyticsApiService {
 	public boolean updateGa4DataPageHits() {
 		
 		String ga4PropertyId = Container.config.getGa4PropertyId();
+
 		try (AlphaAnalyticsDataClient analyticsData = AlphaAnalyticsDataClient.create()) {
 			RunReportRequest request = RunReportRequest.newBuilder()
 					.setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId))
@@ -32,22 +33,20 @@ public class GoogleAnalyticsApiService {
 					.addMetrics(Metric.newBuilder().setName("activeUsers"))
 					.addDateRanges(DateRange.newBuilder().setStartDate("2020-12-01").setEndDate("today")).build();
 
-			// Make the request
 			RunReportResponse response = analyticsData.runReport(request);
 
-			
 			for (Row row : response.getRowsList()) {
 				String pagePath = row.getDimensionValues(0).getValue();
 				int hit = Integer.parseInt(row.getMetricValues(0).getValue());
 				System.out.printf("pagePath : %s, hit : %d \n",pagePath,hit);
 				update(pagePath, hit);
-				
 			}
 		} catch (IOException e) {
 			return false;
 		}
-		
+
 		return true;
+		
 	}
 	private void update(String pagePath, int hit) {
 		ga4DataDao.deletePagePath(pagePath);

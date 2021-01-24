@@ -75,7 +75,7 @@ public class ArticleDao {
 		SecSql sql = new SecSql();
 		sql.append("UPDATE article AS AR");
 		sql.append("INNER JOIN (");
-		sql.append("    SELECT CAST(REPLACE(REPLACE(GA4_PP.pagePathWoQueryStr, '/article_detail_', ''), '.html', '') AS UNSIGNED) AS articleId,");
+		sql.append("    SELECT CAST(REPLACE(REPLACE(GA4_PP.pagePathWoQueryStr, '/article-detail-', ''), '.html', '') AS UNSIGNED) AS articleId,");
 		sql.append("    hit");
 		sql.append("    FROM (");
 		sql.append("        SELECT");
@@ -86,7 +86,7 @@ public class ArticleDao {
 		sql.append("        ) AS pagePathWoQueryStr,");
 		sql.append("        SUM(GA4_PP.hit) AS hit");
 		sql.append("        FROM ga4DataPagePath AS GA4_PP");
-		sql.append("        WHERE GA4_PP.pagePath LIKE '/article_detail_%.html%'");
+		sql.append("        WHERE GA4_PP.pagePath LIKE '/article-detail-%.html%'");
 		sql.append("        GROUP BY pagePathWoQueryStr");
 		sql.append("    ) AS GA4_PP");
 		sql.append(") AS GA4_PP");

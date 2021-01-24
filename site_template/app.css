@@ -128,14 +128,21 @@ a {
 }
 
 .index-list{
-	margin-left: auto;
-	margin-right: auto;
-	width: 1200px;
+	width: 850px;
+	padding-right:15px;
+	margin-left:auto;
 }
 .index-list-min-width{
 	min-width:1200px;
+	
+	
 }
 
+.date{
+	width:350px;
+	border:2px solid red;
+	margin-right:auto;
+}
 /* 로고 시작 */
 .logo {
 	font-size: 3rem;
@@ -175,7 +182,7 @@ a {
   padding:0 10px;
 }
 .logo-bar .menu-box-1 > ul > li:hover > a {
-  color:pink;
+  color:#6bacce;;
 }
 /* 신메뉴바 끝*/
 
@@ -305,6 +312,10 @@ width:var(--article-list__cell-writer__width);
 .article-list__cell-title {
 width:var(--article-list__cell-title__width);
 }	
+
+.article-list__cell-title:hover {
+color:#6bacce;
+}
 
 .article-list__cell-lookup{
 width:var(--article-list__cell-lookup__width);
@@ -543,10 +554,15 @@ padding-left:10px;
   margin-top:10px;
   padding-left:10px;
   padding-bottom:10px;
+  color:#6bacce;
 }
 .list_content .tit_post{
-    font-size: 18px;
+    font-size: 22px;
     line-height: 18px;    
+}
+
+.list_content .tit_post:hover{
+	color:#6bacce;
 }
 .list_content .txt_post {
     font-size: 15px;
