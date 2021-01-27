@@ -32,13 +32,39 @@ public class BuildService {
 
 		loadDataFromDisqus();
 		loadDataFromGa4Data();
+		
 		buildIndexPage();
 		buildArticleTagPage();
 		buildArticleDetailPages();
+		buildArticleSearchPage();
 		buildListPages();
-		buildTagListPages();
+		//buildTagListPages();
 		buildStat();
 	}
+	private void buildArticleSearchPage() {
+		List<Article> articles = articleService.getForPrintArticles(0);
+		String jsonText = Util.getJsonText(articles);
+		Util.writeFile("site/article_list.json", jsonText);
+
+		Util.copy("site_template/article_search.js", "site/article_search.js");
+
+		StringBuilder sb = new StringBuilder();
+
+		String head = getHeadHtml("article_search");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		String html = Util.getFileContents("site_template/search.html");
+
+		sb.append(head);
+		sb.append(html);
+		sb.append(foot);
+
+		String filePath = "site/article-search.html";
+		Util.writeFile(filePath, sb.toString());
+		System.out.println(filePath + " 생성");
+		
+	}
+
 	private void loadDataFromGa4Data() {
 		Container.googleAnalyticsApiService.updatePageHits();
 	}
