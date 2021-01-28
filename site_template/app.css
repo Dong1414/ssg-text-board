@@ -632,7 +632,36 @@ position:absolute;
   font-size:50px;
 }
 /* 탑바 끝*/
+
+/* 모바일 전용 시작*/
+.m-menubar-close{
+	text-align:right;
+	display:none;
+}
+.m-menubar-close > a{
+	font-size:2rem;
+	color:white;
+	text-align:right;
+	padding:10px;
+	margin-bottom:10px;
+}
+.m-menubar-close > a:hover{
+	color:blue;
+}
+
+
+
+.logo-bar> .con > .m-menu{
+	display:none;
+}
+.logo-bar> .con > .m-menu > span:hover{
+	color:#6bacce;
+}
+/* 모바일 전용 끝 */
 /* 화면 사이즈 */
+
+ 
+
 @media ( max-width:1100px ) {
   .index-list{
   	width:auto;
@@ -669,14 +698,58 @@ position:absolute;
     font-size:15px;
     width:100%!important;
   }
-
+}
  @media ( max-width:800px ) {
   .detail-title{
   	display:none;
   }
  
 }
+
+@media ( max-width:650px ) {
+
+  .logo{
+   font-size:1rem;
+  }	
+  .m-menu{
+	font-size: 1rem;
 }
+  .m_delete{
+  	display:none;
+  }
+  .detail-title{
+  	display:none;
+  }
+   .article-list__cell-write, .article-list__cell-reg-date {
+    display:none;
+  }
+  .logo-bar> .con > .m-menu{
+	display:flex;
+	text-align:right;
+	align-items: center;
+	margin-left:80px;
+	width:150px;
+	height:100px;
+	font-size:1.5rem;
+  }
+  .logo-bar> .con > .m-menu > span{
+	font-size:1.5rem;
+  }
+  .m-menubar-close{
+  	display:block;
+  } 
+  .menu-bar {
+  	left:-400px;
+  }
+  .wise{
+  	font-size:10px;
+  }
+  
+  .logo-bar> .con > .logo >span {
+  margin-left: 0px;;
+}
+}
+
 /* 화면 사이즈 끝 */
 
 /* 유튜브 플러그인 시작*/

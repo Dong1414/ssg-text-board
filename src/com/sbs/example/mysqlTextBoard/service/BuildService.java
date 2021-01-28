@@ -311,7 +311,7 @@ public class BuildService {
 						+ "    <source src=\"index.mp4\" type=\"video/mp4\">\r\n"
 						+ "    <strong>Your browser does not support the video tag.</strong>\r\n" + "  </video>\r\n"
 						+ "  <div class=\"jb-text\">\r\n"
-						+ "    <p>Do not try to be original, just try to be good.</p>\r\n" + "  </div>\r\n" + "</div>");
+						+ "    <p class=\"wise\">Do not try to be original, just try to be good.</p>\r\n" + "  </div>\r\n" + "</div>");
 		head = head.replace("<h1 class=\"con\">", "<h1 class=\"con color-w\">");
 		sb.append(head);
 		String html = "";
