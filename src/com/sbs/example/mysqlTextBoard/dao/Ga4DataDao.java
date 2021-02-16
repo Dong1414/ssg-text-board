@@ -23,4 +23,15 @@ public class Ga4DataDao {
 
 		return MysqlUtil.insert(sql);
 	}
+
+	public int getTotal() {
+		SecSql sql = new SecSql();
+		sql.append("SELECT `hit` FROM ga4DataPagePath");
+		sql.append("WHERE pagePath = '/'");
+		int total = MysqlUtil.selectRowIntValue(sql);
+		if(total < 1) {
+			total = 0;
+		}		
+		return total;
+	}
 }

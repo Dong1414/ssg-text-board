@@ -1,4 +1,12 @@
 /* 폰트 */
+
+@font-face {
+    font-family: 'SDSamliphopangche_Outline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @font-face {
 	font-family: 'LotteMartDream';
 	font-style: normal;
@@ -140,8 +148,10 @@ a {
 
 .date{
 	width:350px;
-	border:2px solid red;
+	border-left:1px solid #afafaf;
+	margin-left:15px;
 	margin-right:auto;
+	text-align:center;
 }
 /* 로고 시작 */
 .logo {
@@ -571,6 +581,16 @@ padding-left:10px;
     display: -webkit-box;
 -webkit-line-clamp: 2;
 -webkit-box-orient: vertical;
+}
+
+.total{
+	margin-top: 50px;
+}
+
+.total > span{
+	
+	font-size:40px;
+	font-family: 'SDSamliphopangche_Outline', sans-serif !important;		
 }
 
 /* 홈페이지 끝 */

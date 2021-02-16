@@ -39,6 +39,7 @@ public class ArticleService {
 		articleDao.updatePageHits();
 	}
 
+
 	public int modify(int id, String title, String body) {
 		Map<String, Object> modifyArgs = new HashMap<>();
 		modifyArgs.put("id", id);
@@ -114,5 +115,7 @@ public class ArticleService {
 	private List<Article> getForPrintArticlesByTag(String tagBody) {
 		return articleDao.getForPrintArticlesByTag(tagBody);
 	}
+
+
 
 }

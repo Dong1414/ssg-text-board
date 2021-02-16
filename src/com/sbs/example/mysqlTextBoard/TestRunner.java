@@ -29,9 +29,10 @@ public class TestRunner {
 	}
 
 	public void run() {
-		MysqlUtil.setDBInfo(Container.config.getDbHost(), Container.config.getDbId(), Container.config.getDbPw(), Container.config.getDbName());
+		testGoogleCredentials();
+		//MysqlUtil.setDBInfo(Container.config.getDbHost(), Container.config.getDbId(), Container.config.getDbPw(), Container.config.getDbName());
 
-		testUpdatePageHitsByGa4Api();
+		//testUpdatePageHitsByGa4Api();
 	//	testMakeArticleTagJsonFile();
 	}
 

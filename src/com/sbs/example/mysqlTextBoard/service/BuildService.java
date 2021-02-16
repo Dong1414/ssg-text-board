@@ -15,11 +15,12 @@ public class BuildService {
 	private ArticleService articleService;
 	private MemberService memberService;
 	private DisqusApiService disqusApiService;
-
+	private GoogleAnalyticsApiService googleAnalyticsApiService;
 	public BuildService() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
 		disqusApiService = Container.disqusApiService;
+		googleAnalyticsApiService = Container.googleAnalyticsApiService;
 	}
 
 	public void buildSite() {
@@ -66,7 +67,7 @@ public class BuildService {
 	}
 
 	private void loadDataFromGa4Data() {
-		Container.googleAnalyticsApiService.updatePageHits();
+		Container.googleAnalyticsApiService.updatePageHits();		
 	}
 	private void loadDataFromDisqus() {
 		Container.disqusApiService.updateArticleCounts();
@@ -336,7 +337,11 @@ public class BuildService {
 				break;
 			}
 		}
+		int total = googleAnalyticsApiService.getTotalUser();
+				
+		
 		html = mainHtml.replace("${newarticle3}", html);
+		html = html.replace("${total}", String.valueOf(total));
 		sb.append(html);
 		sb.append(foot);
 

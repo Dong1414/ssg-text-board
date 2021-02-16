@@ -95,7 +95,7 @@ public class ArticleDao {
 
 		return MysqlUtil.update(sql);
 	}
-
+	
 	public int modify(Map<String, Object> args) {
 		SecSql sql = new SecSql();
 
@@ -286,4 +286,6 @@ public class ArticleDao {
 
 		return articles;
 	}
+
+
 }
